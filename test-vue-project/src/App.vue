@@ -3,13 +3,16 @@
 
 	<div class="card">
 		<h2>News {{ now }}</h2>
+		<span>Открыто: {{ openRate }}</span>
 	</div>
 	<app-news 
 	v-for="item in news" 
 	:key="item.id" 
 	:title="item.title" 
 	:id="item.id"
-	:is-open="item.isOpen"></app-news>
+	:is-open="item.isOpen"
+	:content="item.content"
+	@open-news="openRate++"></app-news>
 
   </div>
 </template>
@@ -21,25 +24,30 @@ import AppNews from './components/AppNews'
 export default {
   data() {
 		return {
+			openRate: 0,
 			now: new Date().toLocaleDateString(),
 			news: [
 				{
-					title: 'Lorem ipsum dolor sit amet.',
+					title: '(1) Lorem ipsum dolor sit amet.',
+					content: '[1] Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus minima quos molestiae placeat, a nesciunt voluptatibus facilis impedit tenetur illum et facere soluta omnis laborum natus illo ad, eaque dignissimos?',
 					id: 1,
 					isOpen: false,
 				},
 				{
-					title: 'Lorem ipsum dolor sit amet consectetur adipisicing.',
+					title: '(2) Lorem ipsum dolor sit amet consectetur adipisicing.',
+					content: '[2] Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus minima quos molestiae placeat, a nesciunt voluptatibus facilis impedit tenetur illum et facere soluta omnis laborum natus illo ad, eaque dignissimos?',
 					id: 2,
 					isOpen: false,
 				},
 				{
-					title: 'Lorem ipsum dolor sit amet consectetur.',
+					title: '(3) Lorem ipsum dolor sit amet consectetur.',
+					content: '[3] Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus minima quos molestiae placeat, a nesciunt voluptatibus facilis impedit tenetur illum et facere soluta omnis laborum natus illo ad, eaque dignissimos?',
 					id: 3,
 					isOpen: false,
 				},
 				{
-					title: 'Lorem ipsum dolor sit.',
+					title: '(4) Lorem ipsum dolor sit.',
+					content: '[4] Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus minima quos molestiae placeat, a nesciunt voluptatibus facilis impedit tenetur illum et facere soluta omnis laborum natus illo ad, eaque dignissimos?',
 					id: 4,
 					isOpen: false,
 				},
