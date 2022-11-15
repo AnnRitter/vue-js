@@ -87,6 +87,11 @@ h3 {
     transition: all 0.22s;
 }
 
+.delete {
+	padding: 0.2rem 0.5rem;
+	font-size: 11px;
+}
+
 .btn:hover {
     cursor: pointer;
     opacity: 0.8;
@@ -358,4 +363,14 @@ h3 {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+@media screen and (max-width: 768px) {
+	.container.column {
+		display: block;
+	}
+	.card.card-w30,
+	.card.card-w70 {
+		width: 100%;
+	}
 }
