@@ -7,10 +7,12 @@
 
 <script>
 import TheNavbar from './components/TheNavbar'
+import New from './views/New.vue'
 
 export default {
   components: {
-    TheNavbar
+    TheNavbar, 
+		New,
   }
 }
 </script>

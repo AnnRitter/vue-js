@@ -8,7 +8,7 @@ export const router = createRouter({
 	routes: [
 		{ path: '/', component: Tasks },
 		{ path: '/new', component: New },
-		{ path: '/task', component: Task },
+		{ path: '/task/:id?', component: Task },
 	],
 	linkActiveClass: 'active',
 	linkExactActiveClass: 'active',

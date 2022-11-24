@@ -19,6 +19,7 @@
 import AppStatus from '../components/AppStatus'
 
 export default {
+	props: ['id'],
   components: {AppStatus}
 }
 </script>
