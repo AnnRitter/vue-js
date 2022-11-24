@@ -1,11 +1,11 @@
 <template >
-		<div class="container flex-center" v-if="tasks.length === 0">
+		<div class="container flex-center" v-if="$store.state.tasks.length === 0">
 			<h1 class="text-white center">Задач пока нет</h1> 
 			<router-link class="btn primary" to="/new">Создать</router-link>
 		</div>
 		<div class="container" v-else>
 			<h3 class="text-white">Всего активных задач: 0</h3>
-    	<div class="card" v-for="item in tasks" :key="item.id">
+    	<div class="card" v-for="item in $store.state.tasks" :key="item.id">
       	<h2 class="card-title">
         	{{ item.title }}
        	<AppStatus :type="'done'" />
@@ -28,11 +28,7 @@
 import AppStatus from '../components/AppStatus'
 
 export default {
-	data() {
-		return {
-			tasks: [],
-		}
-	},
+	
 	mounted() {
 		this.load()
 	},
@@ -47,7 +43,7 @@ export default {
 			})
 			const data = await response.json()
 			
-			this.tasks = Object.keys(data).map(key => {
+			this.$store.state.tasks = Object.keys(data).map(key => {
 				return {
 					title: data[key].title,
 					date: data[key].date,

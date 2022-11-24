@@ -28,7 +28,6 @@ export default {
 			title: '',
 			date: '',
 			description: '',
-			tasks: [],
 		}
 	},
 	methods: {
@@ -46,7 +45,7 @@ export default {
 			})
 			const firebaseData = await response.json()
 			console.log(firebaseData);
-			this.tasks.push( {
+			this.$store.state.tasks.push( {
 				title: this.title,
 				date: this.date,
 				description: this.description,
