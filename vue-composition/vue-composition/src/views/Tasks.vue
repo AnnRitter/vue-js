@@ -8,16 +8,16 @@
     	<div class="card" v-for="item in $store.state.tasks" :key="item.id">
       	<h2 class="card-title">
         	{{ item.title }}
-       	<AppStatus :type="'done'" />
+       	<app-status :type="'done'" />
       	</h2>
       	<p>
        		<strong>
           	<small>
-         		{{ item.date }}
+         		{{ new Date(item.date).toLocaleDateString()  }}
         	 </small>
        		</strong>
      		</p>
-     	 <button class="btn primary" >Посмотреть задачу {{ item.id }}</button>
+     	 <router-link :to="'/task/' + item.id" class="btn primary" >Посмотреть</router-link>
    	 </div>
 		</div>
 </template>
@@ -26,39 +26,12 @@
 <script>
 
 import AppStatus from '../components/AppStatus'
-
+import Task from '../views/Task'
 export default {
-	
-	mounted() {
-		this.load()
+  components: {
+		'app-status': AppStatus, 
+		'task': Task
 	},
-	methods: {
-	async	load() {
-			try {
-				const response = await fetch('https://vue-composition-default-rtdb.firebaseio.com/tasks.json', {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',	
-				},
-			})
-			const data = await response.json()
-			
-			this.$store.state.tasks = Object.keys(data).map(key => {
-				return {
-					title: data[key].title,
-					date: data[key].date,
-					description: data[key].description,
-					id: key,
-				}
-			})
-			} 
-			catch(e) {
-				console.log(e.message);
-			}
-		}
-	},
-	
-  components: {AppStatus},
 }
 </script>
 
