@@ -1,20 +1,16 @@
 import { createStore } from 'vuex'
 
-import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, updateDoc } from "firebase/firestore"; 
+import { initializeApp } from "firebase/app";
 
-var firebaseConfig = {
-  apiKey: "API_KEY",
-  authDomain: "PROJECT_ID.firebaseapp.com",
-  // The value of `databaseURL` depends on the location of the database
-  databaseURL: "https://DATABASE_NAME.firebaseio.com",
-  projectId: "PROJECT_ID",
-  storageBucket: "PROJECT_ID.appspot.com",
-  messagingSenderId: "SENDER_ID",
-  appId: "APP_ID",
-  // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
-  measurementId: "G-MEASUREMENT_ID",
+const firebaseConfig = {
+  apiKey: "AIzaSyAaApjmJPnOjdgS5YRcw7WETnRnIMC8Mmw",
+  authDomain: "vue-composition-12954.firebaseapp.com",
+  projectId: "vue-composition-12954",
+  storageBucket: "vue-composition-12954.appspot.com",
+  messagingSenderId: "519435316089",
+  appId: "1:519435316089:web:15e78f361d51698eaf1da8"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -37,9 +33,9 @@ export default createStore({
 		}
 	},
 	actions: {
-			async load(context) {
+		async load(context) {
 			try {
-				const response = await fetch('https://vue-composition-default-rtdb.firebaseio.com/tasks.json', {
+				const response = await fetch('https://vue-composition-12954-default-rtdb.firebaseio.com/tasks.json', {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',	
@@ -56,22 +52,18 @@ export default createStore({
 					id: key,
 				}
 			})
+			console.log(result);
 			context.commit('loader', result)
 			} 
 			catch(e) {
 				console.log(e.message);
 			}
 		},
-		async changeData(data) {
-			console.log(db);
-			try{ 
-				const taskRef = doc(db, 'tasks', data.id);
+		async changeData(context, payload) {
+			try { 
+				const taskRef = doc(db, 'tasks', payload.id)
 				console.log(taskRef);
-				await setDoc(taskRef, {
-					type: '123344',
-				}, {
-					merge: true
-				});
+				const update = await updateDoc(taskRef, { type: payload.type })			
 			} catch(e) {
 				console.log(e.message);
 			}
