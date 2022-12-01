@@ -4,11 +4,11 @@
 			<router-link class="btn primary" to="/new">Создать</router-link>
 		</div>
 		<div class="container" v-else>
-			<h3 class="text-white">Всего активных задач: 0</h3>
+			<h3 class="text-white">Всего активных задач: {{ $store.getters.activeTasks }}</h3>
     	<div class="card" v-for="item in $store.state.tasks" :key="item.id">
       	<h2 class="card-title">
         	{{ item.title }}
-       	<app-status :type="'done'" />
+       	<app-status :type="item.type"/>
       	</h2>
       	<p>
        		<strong>
@@ -30,7 +30,7 @@ import Task from '../views/Task'
 export default {
   components: {
 		'app-status': AppStatus, 
-		'task': Task
+		'task': Task,
 	},
 }
 </script>

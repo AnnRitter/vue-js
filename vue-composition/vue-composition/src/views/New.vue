@@ -16,7 +16,7 @@
       <textarea id="description" v-model="description"></textarea>
     </div>
 
-    <button class="btn primary" @click.prevent="create">Создать</button>
+    <button class="btn primary" @click.prevent="create" :disabled="!invalide">Создать {{ date }}</button>
   </form>
 </template>
 
@@ -30,8 +30,16 @@ export default {
 			description: '',
 		}
 	},
+	computed: {
+		invalide() {
+			return this.title && this.date && this.description
+		}
+	},
 	methods: {
+		
 		async create() {
+			const type = new Date(this.date) >= new Date() ? 'active' : 'cancel';
+			console.log(type);
 			const response = await fetch('https://vue-composition-default-rtdb.firebaseio.com/tasks.json', {
 				method: 'POST',
 				headers: {
@@ -41,11 +49,13 @@ export default {
 					title: this.title,
 					date: this.date,
 					description: this.description,
+					type: type,
 				}),
 			})
 			const firebaseData = await response.json()
-			console.log(firebaseData);
+			console.log(this.date);
 			this.$store.state.tasks.push( {
+				type: type,
 				title: this.title,
 				date: this.date,
 				description: this.description,

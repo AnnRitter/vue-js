@@ -9,6 +9,7 @@
 import TheNavbar from './components/TheNavbar'
 import New from './views/New.vue'
 
+
 export default {
 	mounted() {
 		this.$store.dispatch('load');
