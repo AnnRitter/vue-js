@@ -3,10 +3,12 @@ import { createStore } from 'vuex'
 import { getFirestore } from "firebase/firestore";
 import { doc, updateDoc } from "firebase/firestore"; 
 import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, onValue, child, push, update } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAaApjmJPnOjdgS5YRcw7WETnRnIMC8Mmw",
   authDomain: "vue-composition-12954.firebaseapp.com",
+  databaseURL: "https://vue-composition-12954-default-rtdb.firebaseio.com",
   projectId: "vue-composition-12954",
   storageBucket: "vue-composition-12954.appspot.com",
   messagingSenderId: "519435316089",
@@ -14,7 +16,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const database = getDatabase(app);
 
 export default createStore({
 	state() {
@@ -33,40 +35,41 @@ export default createStore({
 		}
 	},
 	actions: {
-		async load(context) {
-			try {
-				const response = await fetch('https://vue-composition-12954-default-rtdb.firebaseio.com/tasks.json', {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',	
-				},
-			})
-			const data = await response.json()
-			
-			const result = Object.keys(data).map(key => {
-				return {
-					type: data[key].type,
-					title: data[key].title,
-					date: data[key].date,
-					description: data[key].description,
-					id: key,
-				}
-			})
-			console.log(result);
-			context.commit('loader', result)
-			} 
-			catch(e) {
-				console.log(e.message);
-			}
+		async load(context) {			
+			const starCountRef = ref(database, 'tasks/');
+			console.log(starCountRef);
+
+			onValue(starCountRef, (snapshot) => {
+				const data = snapshot.val();
+				const result = Object.keys(data).map(key => {
+					return {
+						type: data[key].type,
+						title: data[key].title,
+						date: data[key].date,
+						description: data[key].description,
+						id: key,
+					}
+				})
+				context.commit('loader', result)
+			});
 		},
+
 		async changeData(context, payload) {
-			try { 
-				const taskRef = doc(db, 'tasks', payload.id)
-				console.log(taskRef);
-				const update = await updateDoc(taskRef, { type: payload.type })			
-			} catch(e) {
-				console.log(e.message);
-			}
+
+			const taskData = {
+					type: payload.type
+			};
+
+			const updates = {};
+			updates['/tasks/' + payload.id] = taskData;
+			return update(ref(database), updates);
+			// try { 
+			// 	const taskRef = doc(db, 'tasks', payload.id)
+			// 	console.log(taskRef);
+			// 	const update = await updateDoc(taskRef, { type: payload.type })			
+			// } catch(e) {
+			// 	console.log(e.message);
+			// }
 			
 		}
 		
