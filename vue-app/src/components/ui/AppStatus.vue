@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export default {
 	props: {
@@ -28,12 +28,17 @@ export default {
 		const textMap = {
 			active: 'Активен',
 			cancelled: 'Отменен',
-			done: 'Выполнен',
+			done: 'Завершен',
 			pending: 'Выполняется'
 		}
 		
 		const className = ref(classesMap[props.type])
 		const text = ref(textMap[props.type])
+
+		watch(props, value => {
+			className.value = classesMap[value.type]
+			text.value = textMap[value.type]
+		})
 
 	return {
 		className,

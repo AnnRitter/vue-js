@@ -25,7 +25,7 @@
 				<option value="done">Завершен</option>
 				<option value="cancelled">Отменен</option>
 				<option value="pending">Выполняется</option>
-				<option value="active">Активный</option>
+				<option value="active">Активен</option>
 			</select>
 		</div>
 
